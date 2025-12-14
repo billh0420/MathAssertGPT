@@ -209,3 +209,8 @@ __marimo__/
 # December 2025
 *.pt
 corpus01.txt
+corpus.txt
+encoder.json
+assert.db
+errors.txt
+oks.txt
