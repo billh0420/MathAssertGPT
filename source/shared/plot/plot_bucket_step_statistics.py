@@ -31,12 +31,12 @@ def plot_bucket_step_statistics(bucket_count: int, bucket_plot_data: list[Bucket
     first_step = x_steps[0]
     last_step = x_steps[-1]
     bucket_count = min(bucket_count, len(x_steps))  # Note this
-    step_size = (last_step - first_step + 1) // bucket_count
+    step_size = last_step // bucket_count
     if step_size > 1:
-        bucket_ranges = list(range(first_step, last_step, step_size))
+        bucket_ranges = list(range(step_size, last_step + step_size, step_size))
     else:
         step_size = 1
-        bucket_ranges = list(range(first_step, last_step + 1, step_size))
+        bucket_ranges = list(range(step_size, last_step + step_size, step_size))
     bucket_ys = [0] * (len(bucket_ranges))
     bucket_sample_counts = [0] * (len(bucket_ranges))
     for i in range(len(x_steps)):
