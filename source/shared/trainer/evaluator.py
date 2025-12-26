@@ -21,7 +21,7 @@ class Evaluator:
         for _ in range(self.max_eval_epochs):
             data_loader = get_subset_dataloader(dataset=self.eval_dataset, batch_size=self.eval_batch_size)
             for x, y in iter(data_loader):
-                logits, loss = model.forward(x, y)
+                logits, loss = model(x, y)
                 losses.append(loss.item())
         mean_loss = mean(losses)
         model.train()

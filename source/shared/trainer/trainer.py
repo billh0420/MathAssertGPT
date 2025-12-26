@@ -27,7 +27,7 @@ class Trainer:
                 # forward pass
                 x = x.to(self.model.device)
                 y = y.to(self.model.device)
-                logits, loss = self.model.forward(x, y)
+                logits, loss = self.model(x, y)
                 # backward pass
                 self.optimizer.zero_grad(set_to_none=True)
                 loss.backward()

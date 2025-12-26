@@ -29,7 +29,7 @@ def generate_tokens(max_new_tokens, idx: Tensor, model, terminal_token_id: int |
             # crop idx to the last block_size tokens
             idx_cond = idx[:, -model.block_size:].to(model.device)  # at most block_size
             # get the predictions
-            logits, loss = model.forward(idx_cond)
+            logits, loss = model(idx_cond)
             # focus only on the last time step
             logits = logits[:, -1, :]  # becomes (B, C)
             # apply softmax to get probabilities
