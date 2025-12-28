@@ -14,7 +14,17 @@ class Parser01:
 
     def __init__(self, source: str):
         self.source = source
-        self.setUp()
+        self.frame_stack = FrameStack()
+        self.labels = {}
+        self.statements = []
+        self.axiom_statements = []
+        self.proved_statements = []
+        self.label = None
+        self.proved_statement_labels = set()
+        self.used_proved_statement_labels = set()
+        self.token_index = 0
+        self.count = 0
+        self.tokens: list[str] = self.remove_comments(self.collapse_whitespace(self.source))
 
     def setUp(self):
         self.frame_stack = FrameStack()

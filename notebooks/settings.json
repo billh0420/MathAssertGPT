@@ -1,0 +1,13 @@
+{
+    "block_size": 150,
+    "corpus01_file_path": "/Users/hale/PycharmProjects/MathAssertGPT/corpus01.txt",
+    "corpus_folder_path": "/Users/hale/PycharmProjects/MathAssertGPT/notebooks/corpus",
+    "dropout": 0.2,
+    "learning_rate": 0.0001,
+    "limit_count": 40000,
+    "mmx_file_path": "/Users/hale/PycharmProjects/MathAssertGPT/set.new2023.mmx",
+    "model_folder_path": "/Users/hale/PycharmProjects/MathAssertGPT/notebooks/model",
+    "n_embd": 1000,
+    "n_head": 10,
+    "n_layer": 10
+}

@@ -40,14 +40,14 @@ class Encoder:
                 break
         return statement[:index]
 
-    def save_to_json(self, corpus_folder_path: Path):
-        encoder_file_path = corpus_folder_path.joinpath('encoder.json').resolve()
+    def save_to_json(self, corpus_folder_path: str):
+        encoder_file_path = Path(corpus_folder_path).joinpath('encoder.json').resolve()
         with encoder_file_path.open("w") as encoder_file:
             json.dump(self.itos, encoder_file, indent=0, sort_keys=True)
 
     @classmethod
-    def load_from_json(cls, corpus_folder_path: Path):
-        encoder_file = open(corpus_folder_path.joinpath('encoder.json'), 'r')
+    def load_from_json(cls, corpus_folder_path: str):
+        encoder_file = open(Path(corpus_folder_path).joinpath('encoder.json'), 'r')
         itos = json.load(encoder_file)
         encoder_file.close()
         encoder = Encoder(tokens='')

@@ -18,10 +18,10 @@ from source.shared import Labels_By_Variable_Row, Typecodes_By_Variable_Row, Lab
 
 from source.shared import Parser03 as Parser
 
-def create_files(corpus_file_path: Path, limit_count: int | None, mmx_file_path: Path, corpus01_file_path: Path):
+def create_files(corpus_folder_path: str, limit_count: int | None, mmx_file_path: Path, corpus01_file_path: Path):
+    corpus_file_path = Path(corpus_folder_path).joinpath('corpus.txt').resolve()
     if not corpus_file_path.exists():
-        corpus_folder_path = corpus_file_path.parent
-        assert_db_file_path = corpus_folder_path.joinpath('assert.db').resolve()
+        assert_db_file_path = Path(corpus_folder_path).joinpath('assert.db').resolve()
         if os.path.exists(assert_db_file_path):
             raise Exception(f'assert.db already exists at {assert_db_file_path}')
         assert_db = AssertDB(assert_db_file_path=assert_db_file_path)

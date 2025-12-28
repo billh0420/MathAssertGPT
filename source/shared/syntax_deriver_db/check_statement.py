@@ -6,8 +6,8 @@ from pathlib import Path
 from source.shared import AssertDB
 from source.shared import SyntaxDeriver
 
-def check_statement(statement: str, block_size: int, corpus_folder_path: Path):
-    assert_db = AssertDB(assert_db_file_path=corpus_folder_path.joinpath('assert.db'))
+def check_statement(statement: str, corpus_folder_path: str):
+    assert_db = AssertDB(assert_db_file_path=Path(corpus_folder_path).joinpath('assert.db'))
     syntax_deriver = SyntaxDeriver(assert_db=assert_db)
     syntax_deriver.derive_syntax(statement=statement, context=None)
     sql = 'SELECT id, statement, context, derivation, derivation_correct_count, syntax_deriver_error FROM math_statements ORDER BY id'

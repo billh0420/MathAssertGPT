@@ -18,7 +18,7 @@ from source.shared.neural_network.neural_network_utility import get_n_layer
 from source.shared.neural_network.neural_network_utility import load_model
 from source.shared.neural_network.neural_network_utility import save_model
 
-# Parsersn
+# Parsers
 from source.shared.parsers.parser import Parser
 from source.shared.parsers.parser01 import Parser01
 from source.shared.parsers.parser03 import Parser03

@@ -6,7 +6,7 @@ from pathlib import Path
 from source.shared import BucketPlotData
 from source.shared import plot_bucket_step_statistics
 
-def plot_correct(model_folder_path: Path, bucket_count, xlabel: str, ylabel: str, title: str=''):
+def plot_correct(model_folder_path: str, bucket_count, xlabel: str, ylabel: str, title: str=''):
     ok_steps, ok_counts = _get_counts_by_steps(model_folder_path, file_name='oks.txt')
     error_steps, error_counts = _get_counts_by_steps(model_folder_path, file_name='errors.txt')
     bucket_plot_data = []
@@ -19,10 +19,10 @@ def plot_correct(model_folder_path: Path, bucket_count, xlabel: str, ylabel: str
         bucket_plot_data.append(bucket_plot_datum)
     plot_bucket_step_statistics(bucket_count=bucket_count, bucket_plot_data=bucket_plot_data, xlabel=xlabel, ylabel=ylabel, title=title)
 
-def _get_counts_by_steps(folder_path: Path, file_name: str) -> tuple[list[int], list[float]]:
+def _get_counts_by_steps(folder_path: str, file_name: str) -> tuple[list[int], list[int | float]]:
     file_steps: list[int] = []
-    file_counts: list[float] = []
-    with open(folder_path.joinpath(file_name), 'r') as file:
+    file_counts: list[int | float] = []
+    with open(Path(folder_path).joinpath(file_name), 'r') as file:
         for line in file:
             split_line = list(map(int, line.removesuffix('\n').split(', ')))
             line_step = split_line[0]

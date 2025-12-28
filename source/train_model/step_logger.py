@@ -11,14 +11,13 @@ from source.evaluate_model import get_syntax_deriver
 
 class AssertStepLogger(StepLogger):
 
-    def __init__(self, model, encoder: Encoder, terminal_token: str, model_folder_path: Path, corpus_file_path: Path):
+    def __init__(self, model, encoder: Encoder, terminal_token: str, model_folder_path: str, corpus_folder_path: str):
         self.model = model
         self.encoder = encoder
         self.terminal_token = terminal_token
-        self.model_folder_path = model_folder_path
-        self.errors_file = model_folder_path.joinpath('errors.txt')
-        self.oks_file = model_folder_path.joinpath('oks.txt')
-        corpus_folder_path = corpus_file_path.parent
+        self.model_folder_path = Path(model_folder_path).resolve()
+        self.errors_file = self.model_folder_path.joinpath('errors.txt')
+        self.oks_file = self.model_folder_path.joinpath('oks.txt')
         self.syntax_deriver = get_syntax_deriver(corpus_folder_path=corpus_folder_path)
 
     def log_step(self, step: int, max_examples: int):

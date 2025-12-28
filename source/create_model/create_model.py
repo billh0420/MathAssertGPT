@@ -25,30 +25,36 @@ from source.shared import save_model
     # ------------
 '''
 
-def create_model(model_file_path: Path, corpus_file_path: Path, n_head: int, n_layer: int, settings):
+def create_model(settings):
     print(f'settings.block_size = {settings.block_size}')
+    model_folder_path = Path(settings.model_folder_path)
+    model_name = 'model.pt'
+    model_file_path = model_folder_path.joinpath(model_name).resolve()
     if not model_file_path.is_file():
         print(f'Start create model and optimizer')
-        print(f'create_model: model_checkpoint_path={os.path.abspath(model_file_path)}')
+        print(f'create_model: model_file_path={os.path.abspath(model_file_path)}')
         if os.path.exists(model_file_path):
             print(f'model already exist at path={os.path.abspath(model_file_path)}')
         else:
-            _create_model(model_file_path, corpus_file_path=corpus_file_path, n_head=n_head, n_layer=n_layer, settings=settings)
+            _create_model(model_file_path, settings=settings)
             print(f'model created at path={os.path.abspath(model_file_path)}')
         print(f'Done')
 
-def _create_model(model_checkpoint_path: Path, corpus_file_path: Path, n_head: int, n_layer: int, settings):
+def _create_model(model_file_path: Path, settings):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     if torch.backends.mps.is_available():
         device = "mps"
 
+    corpus_folder_path = settings.corpus_folder_path
+    n_head = settings.n_head
+    n_layer = settings.n_layer
     block_size = settings.block_size  # the maximum context length for predictions
     learning_rate = settings.learning_rate
     n_embd = settings.n_embd
     dropout = settings.dropout
 
     print(f'create_encoder')
-    encoder = Encoder.load_from_json(corpus_folder_path=corpus_file_path.parent)
+    encoder = Encoder.load_from_json(corpus_folder_path=corpus_folder_path)
     print(f'vocab_size={len(encoder.tokens)}')
 
     # create model
@@ -64,4 +70,4 @@ def _create_model(model_checkpoint_path: Path, corpus_file_path: Path, n_head: i
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
     # save model and optimizer
-    save_model(model, optimizer, model_checkpoint_path)
+    save_model(model, optimizer, model_file_path)

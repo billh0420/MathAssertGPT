@@ -55,3 +55,4 @@ class Tokens:
             if self.token_buffer:  # Note: token_buffer can be empty when line is just whitespace
                 token = self.token_buffer[self.token_index]
                 return token
+        raise Exception('_get_next_raw_token: unexpected loop termination.')

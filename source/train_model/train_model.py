@@ -17,7 +17,7 @@ from source.shared import SampleDataset
 
 from source.train_model.step_logger import AssertStepLogger
 
-def train_model(model, optimizer, max_train_epochs: int, corpus_file_path: Path, model_file_path: Path):
+def train_model(model, optimizer, max_train_epochs: int, corpus_folder_path: str, model_folder_path: str):
     if max_train_epochs == 0:
         return
 
@@ -40,6 +40,7 @@ def train_model(model, optimizer, max_train_epochs: int, corpus_file_path: Path,
     print(f'vocab_size={vocab_size}')
 
     # get max_statement_count of statements
+    corpus_file_path = Path(corpus_folder_path).joinpath('corpus.txt').resolve()
     print(f'corpus_file_path={os.path.abspath(corpus_file_path)}')
     with open(corpus_file_path, 'r') as file:
         corpus_statements = file.read().splitlines()
@@ -70,14 +71,15 @@ def train_model(model, optimizer, max_train_epochs: int, corpus_file_path: Path,
     print(f'block_size={model.block_size} n_head={model.n_head} n_layer={n_layer} learning_rate={learning_rate} device={device}')
     print(f'#train_dataset={len(train_dataset)}')
     start_time = time.time()
-    trainer = Trainer(model, optimizer, model_file_path)
+    trainer = Trainer(model, optimizer, model_folder_path)
     terminal_token = '<|over|>'
-    step_logger = AssertStepLogger(model=model, encoder=encoder, terminal_token=terminal_token, model_folder_path=model_file_path.parent, corpus_file_path=corpus_file_path)
+    step_logger = AssertStepLogger(model=model, encoder=encoder, terminal_token=terminal_token, model_folder_path=model_folder_path, corpus_folder_path=corpus_folder_path)
     trainer.train_and_evaluate(max_train_epochs, train_batch_size, eval_interval, train_dataset, evaluator=None, step_logger=step_logger)
     elapsed_time = time.time() - start_time
     print(f'elapsed_time={elapsed_time / 60:.2f} minutes')
     print(f'epoch={model.epoch}; step={model.step}')
 
     # save model and optimizer
-    print(f'saving model: epoch={model.epoch} model_checkpoint_path={os.path.abspath(model_file_path)}')
-    save_model(model, optimizer, model_file_path)
+    model_checkpoint_path = Path(model_folder_path).joinpath('model.pt').resolve()
+    print(f'saving model: epoch={model.epoch} model_checkpoint_path={os.path.abspath(model_checkpoint_path)}')
+    save_model(model, optimizer, model_checkpoint_path=model_checkpoint_path)

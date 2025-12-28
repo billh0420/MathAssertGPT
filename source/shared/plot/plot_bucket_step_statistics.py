@@ -12,7 +12,7 @@ from dataclasses import dataclass
 class BucketPlotData:
     step: int
     y: Union[float, int]
-    sample_count: int
+    sample_count: int | float
 
 def x_ticker_formatter(x, pos):
     k = 1000

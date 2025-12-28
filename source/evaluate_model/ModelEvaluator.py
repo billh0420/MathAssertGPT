@@ -1,8 +1,6 @@
 # from assert_gpt.evaluate_model
 # ModelEvaluator.py
 
-from pathlib import Path
-
 from source.evaluate_model.get_syntax_deriver import get_syntax_deriver
 
 from source.shared import generate_predicted_dictum
@@ -22,7 +20,7 @@ def get_reply(dictum: str, terminal_token: str) -> str:
 
 class ModelEvaluator:
 
-    def __init__(self, corpus_folder_path: Path, model):
+    def __init__(self, corpus_folder_path: str, model):
         # here are all the unique tokens that occur in this text
         vocab_size = len(model.encoder.tokens)
         print(f'vocab_size={vocab_size}')
@@ -56,9 +54,9 @@ class ModelEvaluator:
                 print(f'{example + 1}. error_count={self.error_count}')
         self.model.train()  # set to train mode
 
-def unit_test_evaluate_model(corpus_file_path: Path):
+def unit_test_evaluate_model(corpus_folder_path: str):
     terminal_token = '<|over|>'
-    syntax_deriver = get_syntax_deriver(corpus_folder_path=corpus_file_path.parent)
+    syntax_deriver = get_syntax_deriver(corpus_folder_path=corpus_folder_path)
     prompt = get_prompt()
     # wff = '( E. x A. y ( y e. x <-> E. x ( x e. w /\\ A e. y ) ) <-> E. y A. x ( x e. y <-> ( A F x <-> E. y ( y e. z /\\ E. x ( x e. w /\\ A F y ) ) ) ) )'
     # wff = '( ( ( ( ( ps -> ps ) -> ( -. -. ps -> -. ps ) ) -> -. ps ) -> ps ) -> ph ) -> ps ) -> ( ( ps /\ ps ) -> ( -. ps -> -. ps ) ) )'  # this has a wff followed by more tokens
